@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import sysconfig
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -14,11 +15,11 @@ def main():
     database = ROOT / 'artifacts/service_desk.duckdb'
     ingest(ROOT, database)
     environment = {**os.environ, 'WAREHOUSE_PATH': database.as_posix(), 'DBT_SEND_ANONYMOUS_USAGE_STATS': 'false'}
-    dbt = Path(sys.executable).parent / ('dbt.exe' if os.name == 'nt' else 'dbt')
+    dbt = Path(sysconfig.get_path('scripts')) / ('dbt.exe' if os.name == 'nt' else 'dbt')
     subprocess.run([str(dbt), 'build', '--project-dir', 'dbt', '--profiles-dir', 'dbt'], env=environment, check=True)
     from scripts.evidence import export_evidence
     export_evidence(ROOT, database)
-    subprocess.run([sys.executable, '-m', 'pytest', '-q'], check=True)
+    subprocess.run([sys.executable, '-m', 'pytest', '-q', 'tests'], check=True)
     print('BUILD COMPLETE | warehouse, dbt tests, SQL results, report and dashboard data ready', flush=True)
 
 
