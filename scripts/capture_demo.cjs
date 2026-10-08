@@ -5,15 +5,25 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
   const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://localhost:8501',{waitUntil:'domcontentloaded'});
+  await page.goto(process.env.APP_URL || 'http://localhost:8501',{waitUntil:'domcontentloaded'});
   await page.getByText('Tickets opened',{exact:true}).waitFor({timeout:60000});
   await page.waitForTimeout(2500);
   await page.mouse.move(0,0);
   await page.screenshot({path:'docs/img/streamlit-overview.png'});
-  await page.goto('http://localhost:8000',{waitUntil:'networkidle'});
+  await page.goto(process.env.SITE_URL || 'http://localhost:8000',{waitUntil:'networkidle'});
   await page.waitForFunction(()=>document.body.dataset.ready==='All months');
   if(await page.locator('.panel').count()!==8)throw Error('Expected eight chart panels');
   if(!(await page.locator('#metrics').innerText()).includes('20,000'))throw Error('Synthetic count mismatch');
+  if(process.env.SMOKE_ONLY){
+    await page.selectOption('#month','2024-12-01');await page.waitForFunction(()=>document.body.dataset.ready==='2024-12-01');
+    if(!(await page.locator('#metrics').innerText()).includes('1,708'))throw Error('Cohort filter mismatch');
+    const download=page.waitForEvent('download');await page.click('#download');const file=await download;
+    await file.saveAs('artifacts/smoke-cohort.json');
+    if(JSON.parse(fs.readFileSync('artifacts/smoke-cohort.json')).opened_tickets!==1708)throw Error('Export mismatch');
+    if(errors.length)throw Error(errors.join('\n'));
+    console.log('Clean-clone dashboard passed: Streamlit loads, eight charts, month filter and evidence export match.');
+    await browser.close();return;
+  }
   fs.mkdirSync('docs/img/frames',{recursive:true});
   const start=Date.now();
   await page.mouse.move(0,0);
