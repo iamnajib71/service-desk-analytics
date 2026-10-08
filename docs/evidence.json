@@ -1,0 +1,46 @@
+{
+  "summaries": {
+    "public": {
+      "opened_tickets": 24918,
+      "resolved_tickets": 23362,
+      "sla_eligible": 23362,
+      "sla_pct": 61.7755329167,
+      "mttr_hours": 178.1715820563,
+      "median_resolution_hours": 22.1,
+      "p90_resolution_hours": 381.5483333333,
+      "fcr_eligible": 0,
+      "fcr_pct": null,
+      "reopen_pct": 1.1036198732,
+      "csat_mean": null,
+      "csat_responses": 0,
+      "invalid_resolutions": 0.0,
+      "unparsed_resolutions": 0.0,
+      "first_opened": "2016-02-29T01:16:00.000",
+      "last_opened": "2017-02-16T14:17:00.000",
+      "as_of": "2017-02-18T15:00:00.000"
+    },
+    "synthetic": {
+      "opened_tickets": 20000,
+      "resolved_tickets": 19471,
+      "sla_eligible": 19471,
+      "sla_pct": 89.2917672436,
+      "mttr_hours": 7.9368970736,
+      "median_resolution_hours": 2.9638413694,
+      "p90_resolution_hours": 19.8988332931,
+      "fcr_eligible": 19471,
+      "fcr_pct": 32.5509732423,
+      "reopen_pct": 7.495,
+      "csat_mean": 4.1959224986,
+      "csat_responses": 6916,
+      "invalid_resolutions": 0.0,
+      "unparsed_resolutions": 0.0,
+      "first_opened": "2024-01-01T01:44:00.000",
+      "last_opened": "2024-12-31T22:48:00.000",
+      "as_of": "2025-01-01T00:00:00.000"
+    }
+  },
+  "raw_event_rows": 141712,
+  "dbt_models": 11,
+  "dbt_tests": 38,
+  "dbt_tests_passed": 38
+}

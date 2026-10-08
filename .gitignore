@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.duckdb
+*.duckdb.wal
+data/raw/*.csv
+data/raw/uci.zip
+dbt/target/
+dbt/logs/
+artifacts/
+.env
+CLAUDE.md
+AGENTS.md
+*.webm
+docs/img/frames/
+*.log

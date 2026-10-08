@@ -1,0 +1,35 @@
+name: Warehouse and dashboard CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: python -m pip install -r requirements.txt
+      - name: Rebuild warehouse, dbt tests, evidence and dashboard checks
+        run: python scripts/build.py
+      - name: Verify reproducible committed evidence
+        run: git diff --exit-code -- README.md docs/evidence.json docs/monthly-service-report.md dashboard/data analysis/results site/charts.json data/SOURCE.md
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evidence-${{ matrix.os }}
+          path: |
+            dbt/target/run_results.json
+            dbt/target/manifest.json
+            docs/evidence.json
+            analysis/results/

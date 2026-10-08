@@ -1,0 +1,83 @@
+version: 2
+models:
+  - name: stg_uci_tickets
+    description: Latest source audit row per incident; invalid durations are flagged and excluded from duration metrics.
+    columns:
+      - name: ticket_id
+        data_tests: [not_null, unique]
+      - name: opened_at
+        data_tests: [not_null]
+  - name: stg_tickets
+    columns:
+      - name: dataset
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [public, synthetic]
+  - name: dim_category
+    columns:
+      - name: category_key
+        data_tests: [not_null, unique]
+      - name: category
+        data_tests: [not_null, unique]
+  - name: dim_group
+    columns:
+      - name: group_key
+        data_tests: [not_null, unique]
+      - name: assignment_group
+        data_tests: [not_null, unique]
+  - name: dim_date
+    columns:
+      - name: date_key
+        data_tests: [not_null, unique]
+  - name: fct_tickets
+    description: One row per dataset and ticket, with calendar elapsed durations and explicit missing-metric handling.
+    columns:
+      - name: ticket_key
+        data_tests: [not_null, unique]
+      - name: dataset
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [public, synthetic]
+      - name: opened_at
+        data_tests: [not_null]
+      - name: priority
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+                quote: false
+      - name: category_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments: {to: "ref('dim_category')", field: category_key}
+      - name: group_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments: {to: "ref('dim_group')", field: group_key}
+      - name: opened_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments: {to: "ref('dim_date')", field: date_key}
+      - name: reopened
+        data_tests: [not_null]
+      - name: as_of
+        data_tests: [not_null]
+  - name: kpi_monthly
+    columns:
+      - name: month
+        data_tests: [not_null]
+  - name: kpi_backlog
+    columns:
+      - name: age_bucket
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['0-1 days', '2-7 days', '8-30 days', '31+ days']

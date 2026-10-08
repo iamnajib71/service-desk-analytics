@@ -1,0 +1,14 @@
+name: service_desk
+version: '1.0.0'
+config-version: 2
+profile: service_desk
+model-paths: [models]
+test-paths: [tests]
+macro-paths: [macros]
+models:
+  service_desk:
+    +materialized: table
+    staging:
+      +schema: staging
+    marts:
+      +schema: marts
