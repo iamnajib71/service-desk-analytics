@@ -11,11 +11,11 @@ Service desk activity turned into tested SQL models, clear KPIs and decisions an
 
 [Live demo — synthetic data only](https://iamnajib71.github.io/service-desk-analytics/) · [Monthly report](docs/monthly-service-report.md) · [SQL findings](analysis/README.md)
 
-## What it shows recruiters
+## Technical capabilities
 
-- **Data / BI analyst:** SQL transformations, a ticket-grain star schema, dbt lineage and automated quality checks.
-- **Reporting / business analyst:** defined denominators, stakeholder questions, reproducible findings and recommendations backed by output.
-- **Service desk:** priority SLA monitoring, repeat-work review, queue ageing and demand patterns that inform support operations.
+- **Data modelling and quality:** SQL transformations, a ticket-grain star schema, dbt lineage and automated quality checks.
+- **Reporting and analysis:** defined denominators, stakeholder questions, reproducible findings and recommendations backed by output.
+- **Service operations:** priority SLA monitoring, repeat-work review, queue ageing and demand patterns that inform support operations.
 
 ## Architecture
 
@@ -126,7 +126,7 @@ tests/                    generator, boundary and dashboard integration tests
 
 ## Honest limits
 
-This is a portfolio project, not a production service or a claim about a Melbourne employer. The primary dataset is public anonymised historical research data licensed CC BY 4.0; project code is MIT. Synthetic data is separately labelled everywhere it is shown. [Provenance](data/SOURCE.md) records the source archive hash and transformation rules.
+This is an independent analysis project. It does not represent a production service or any employer. The primary dataset is public anonymised historical research data licensed CC BY 4.0; project code is MIT. Synthetic data is separately labelled everywhere it is shown. [Provenance](data/SOURCE.md) records the source archive hash and transformation rules.
 
 Public data has no CSAT, reliable response timestamp or verified FCR. Anonymous category IDs are not translated into invented service names. Source timestamps have no stated timezone. The latest audit row determines classification; retrospective backlog uses final timestamps/group and cannot reconstruct all transfers or reopen intervals. Invalid timestamps are flagged and excluded from outcomes, possibly overstating backlog. Outcome rates exclude unresolved tickets and are subject to observation-age bias. Synthetic SLA targets are fictional calendar-hour rules, not industry benchmarks. Descriptive correlations do not establish causes. No Power BI file is claimed.
 

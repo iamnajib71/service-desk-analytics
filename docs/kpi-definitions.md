@@ -12,7 +12,7 @@ The fact grain is **one incident per dataset**. Every mart retains `dataset`; pu
 | Backlog | Opened before snapshot and unresolved or resolved at/after snapshot | Snapshot is exclusive next-month start, capped at extraction; across all opening cohorts |
 | Queue age | Snapshot minus opened timestamp in calendar days | Mutually exclusive buckets: below 2, 2 to below 8, 8 to below 31, at least 31 days |
 | Reopen rate | Tickets with final reopen count above zero / all opened tickets | At least one reopen, not total reopening events; observation age varies |
-| Demand | Count by source-local opening hour and channel | Public timezone unknown; no assumed Melbourne conversion |
+| Demand | Count by source-local opening hour and channel | Public timezone unknown; no timezone conversion assumed |
 | CSAT trend | Mean observed score (1–5); count and coverage provided | Public unavailable; synthetic optional responses; respondents may not represent all users |
 
 Synthetic priority targets: P1 4h; P2 8h; P3 24h; P4 72h. These are explicitly fictional. No business-hour calendar, pause clock, staffing cost, contractual compliance or causal attribution is claimed.
