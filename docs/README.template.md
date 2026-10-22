@@ -1,35 +1,37 @@
 # Service Desk Analytics
 
-Service desk activity turned into tested SQL models, clear KPIs and decisions an IT manager can act on.
-
-<!-- project-overview:start -->
-## Project overview
-
-| Area | What to look for |
-| --- | --- |
-| **Problem addressed** | Raw ticket event logs need consistent ticket-level metrics so queue, SLA and repeat-work decisions use clear denominators. |
-| **Implemented work** | Built a DuckDB/dbt warehouse, 11 models, 38 dbt tests, KPI marts, SQL findings, Streamlit views and a monthly service report. Kept public research observations separate from 20,000 synthetic demonstration tickets. |
-| **Skills demonstrated** | SQL, dimensional modelling, dbt data tests, Python, DuckDB, KPI definition, dashboarding and service-operations analysis. |
-| **Demo** | [Watch the recorded dashboard walkthrough](docs/demo.gif), or [open the synthetic-data dashboard](https://iamnajib71.github.io/service-desk-analytics/). |
-| **How to use it** | [Quick start](#quick-start--windows-powershell): run `rebuild.ps1`, then start Streamlit. Expected: a rebuilt warehouse, passing quality checks and dashboard cohorts backed by exportable evidence. |
-| **Verification** | [Machine-readable evidence](docs/evidence.json), [SQL findings](analysis/README.md) and the [monthly report](docs/monthly-service-report.md). Recommendations are analytical findings, not measured production improvements. |
-
-<!-- project-overview:end -->
+I turned service-desk records into tested SQL models and a dashboard that shows an IT manager where tickets breach targets, queues age and repeat work accumulates.
 
 ![Recorded working dashboard demo](docs/demo.gif)
 
-[![CI](https://github.com/iamnajib71/service-desk-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/iamnajib71/service-desk-analytics/actions/workflows/ci.yml)
-![Code licence MIT](https://img.shields.io/badge/code-MIT-green)
-![Python](https://img.shields.io/badge/Python-3.12-blue)
-![Public data CC BY 4.0](https://img.shields.io/badge/public_data-CC_BY_4.0-lightgrey)
+[![CI](https://github.com/iamnajib71/service-desk-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/iamnajib71/service-desk-analytics/actions/workflows/ci.yml) · [Code licence](LICENSE)
 
-[Live demo — synthetic data only](https://iamnajib71.github.io/service-desk-analytics/) · [Monthly report](docs/monthly-service-report.md) · [SQL findings](analysis/README.md)
+## At a glance
 
-## Technical capabilities
+| Area | Evidence-backed summary |
+| --- | --- |
+| **The problem** | An IT manager reviewing ticket totals alone cannot see which queues need attention or whether a resolution average hides long waits; missing denominators can lead to misplaced effort. This project separates public research records from fictional demonstration data. |
+| **What I built** | I built a DuckDB warehouse, dbt models and quality checks, defined the KPI denominators, and produced SQL findings, a monthly report and interactive dashboards. |
+| **Results** | [{{public_count}} public incidents reduced from {{event_count}} audit rows; {{synthetic_count}} separately labelled synthetic tickets; {{model_count}} dbt models and {{test_count}} passing dbt tests](docs/evidence.json). These are dataset and validation counts, not business improvements. |
+| **Skills shown** | SQL, Python, DuckDB, dbt, data modelling, data quality, KPI reporting, business analysis, Streamlit and Plotly. |
+| **Relevant roles** | Data Analyst, BI Analyst, Reporting Analyst, Business Analyst, Service Desk Reporting Analyst. |
+| **How it was built** | Designed, specified and reviewed by me; built with Codex as my coding agent (vibe coding). Verification and its limits are linked below. |
+| **Try it / evidence** | [Synthetic dashboard](https://iamnajib71.github.io/service-desk-analytics/) · [Monthly report](docs/monthly-service-report.md) · [SQL findings](analysis/README.md) · [Evidence](docs/evidence.json) |
 
-- **Data modelling and quality:** SQL transformations, a ticket-grain star schema, dbt lineage and automated quality checks.
-- **Reporting and analysis:** defined denominators, stakeholder questions, reproducible findings and recommendations backed by output.
-- **Service operations:** priority SLA monitoring, repeat-work review, queue ageing and demand patterns that inform support operations.
+## What I did, step by step
+
+1. Defined the manager questions and [measurement contract](docs/kpi-definitions.md) before calculating the KPIs.
+2. Recorded public-source provenance and generated a separate seeded synthetic dataset; preserved dataset labels throughout the pipeline.
+3. Reduced audit events to a ticket-grain fact table and built dimensions and KPI marts.
+4. Added quality and reconciliation checks, including invalid chronology and unavailable source metrics.
+5. Answered operational questions with [parameterised SQL and CSV outputs](analysis/README.md), then wrote recommendations with stated limits.
+6. Built local and hosted dashboards and exported [machine-readable evidence](docs/evidence.json) so counts and denominators can be checked.
+
+## Problems I hit and how I solved them
+
+- **The build could not reliably locate dbt:** used the active Python installation's scripts directory to locate its executable. [Fixing commit](https://github.com/iamnajib71/service-desk-analytics/commit/e02cd14).
+- **Test discovery needed to stay inside the project suite:** scoped collection to the tests directory in configuration and the build command. [Fixing commit](https://github.com/iamnajib71/service-desk-analytics/commit/e02cd14) · [test configuration](pytest.ini).
+- **The public source lacks satisfaction and first-contact-resolution measures:** displayed them as unavailable rather than inferring them, with explicit denominators and synthetic-only examples. [Measurement contract](docs/kpi-definitions.md).
 
 ## Architecture
 
@@ -85,7 +87,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\rebuild.ps1
 .\.venv\Scripts\python.exe -m streamlit run dashboard/app.py
 ```
 
-Open `http://localhost:8501`. The rebuild command downloads the licensed public archive, generates the seeded synthetic CSV, loads raw tables, builds **{{model_count}} dbt models**, runs **{{test_count}} dbt tests**, regenerates the SQL result tables/report/dashboard exports, and runs Python integration tests. Rerun it to reproduce everything. Internet is required for first-time packages and the data download. To use an existing Python executable: `rebuild.ps1 -Python C:\Path\To\Python312\python.exe`.
+Open `http://localhost:8501`. The rebuild command downloads the licensed public archive, generates the seeded synthetic CSV, loads raw tables, builds [**{{model_count}} dbt models**](docs/evidence.json), runs **{{test_count}} dbt tests**, regenerates the SQL result tables/report/dashboard exports, and runs Python integration tests. Rerun it to reproduce everything. Internet is required for first-time packages and the data download. To use an existing Python executable: `rebuild.ps1 -Python C:\Path\To\Python312\python.exe`.
 
 Linux/macOS or CI:
 
@@ -144,4 +146,6 @@ This is an independent analysis project. It does not represent a production serv
 
 Public data has no CSAT, reliable response timestamp or verified FCR. Anonymous category IDs are not translated into invented service names. Source timestamps have no stated timezone. The latest audit row determines classification; retrospective backlog uses final timestamps/group and cannot reconstruct all transfers or reopen intervals. Invalid timestamps are flagged and excluded from outcomes, possibly overstating backlog. Outcome rates exclude unresolved tickets and are subject to observation-age bias. Synthetic SLA targets are fictional calendar-hour rules, not industry benchmarks. Descriptive correlations do not establish causes. No Power BI file is claimed.
 
-**Built by Nazmul Hassan** · [LinkedIn](https://linkedin.com/in/iamnajib71) · [GitHub](https://github.com/iamnajib71)
+## Built by Nazmul Hassan
+
+[LinkedIn](https://www.linkedin.com/in/iamnajib71) · [GitHub](https://github.com/iamnajib71)
