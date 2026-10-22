@@ -81,7 +81,7 @@ Amaral, C., Fantinato, M., & Peres, S. (2018). *Incident management process enri
 - Loaded observations: {raw_count:,} audit rows, reduced to {summaries['public']['opened_tickets']:,} unique incidents.
 - The source is anonymised; labels such as Category 46 are retained. No semantic category names are invented.
 - Missing `?` values are unknown. Latest event chosen by update timestamp, then system modification count, then source row. SLA uses the final source `made_sla` flag, interpreted as true = met, with no invented contractual targets.
-- Source timezone is unspecified. Timestamps remain source-local; they are not assumed to be Melbourne time.
+- Source timezone is unspecified. Timestamps remain source-local; no local timezone is assumed.
 - First-response time, verified first-contact resolution and CSAT are unavailable. They remain null.
 - Negative resolution intervals: {summaries['public']['invalid_resolutions']:,}; unparseable nonmissing resolution timestamps: {summaries['public']['unparsed_resolutions']:,}. These are flagged, excluded from duration and SLA denominators, retained in volume, and treated as unresolved for backlog (possible overstatement).
 - The source does not establish cancellation treatment or historic assignment ownership. Backlog is reconstructed from final timestamps and final group, with no inference about reopen intervals.
