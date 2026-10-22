@@ -2,6 +2,20 @@
 
 Service desk activity turned into tested SQL models, clear KPIs and decisions an IT manager can act on.
 
+<!-- project-overview:start -->
+## Project overview
+
+| Area | What to look for |
+| --- | --- |
+| **Problem addressed** | Raw ticket event logs need consistent ticket-level metrics so queue, SLA and repeat-work decisions use clear denominators. |
+| **Implemented work** | Built a DuckDB/dbt warehouse, 11 models, 38 dbt tests, KPI marts, SQL findings, Streamlit views and a monthly service report. Kept public research observations separate from 20,000 synthetic demonstration tickets. |
+| **Skills demonstrated** | SQL, dimensional modelling, dbt data tests, Python, DuckDB, KPI definition, dashboarding and service-operations analysis. |
+| **Demo** | [Watch the recorded dashboard walkthrough](docs/demo.gif), or [open the synthetic-data dashboard](https://iamnajib71.github.io/service-desk-analytics/). |
+| **How to use it** | [Quick start](#quick-start--windows-powershell): run `rebuild.ps1`, then start Streamlit. Expected: a rebuilt warehouse, passing quality checks and dashboard cohorts backed by exportable evidence. |
+| **Verification** | [Machine-readable evidence](docs/evidence.json), [SQL findings](analysis/README.md) and the [monthly report](docs/monthly-service-report.md). Recommendations are analytical findings, not measured production improvements. |
+
+<!-- project-overview:end -->
+
 ![Recorded working dashboard demo](docs/demo.gif)
 
 [![CI](https://github.com/iamnajib71/service-desk-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/iamnajib71/service-desk-analytics/actions/workflows/ci.yml)
