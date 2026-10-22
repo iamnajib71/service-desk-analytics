@@ -1,4 +1,4 @@
-"""Generate every quoted figure and the recruiter-facing evidence from the warehouse."""
+"""Generate reproducible figures and supporting evidence from the warehouse."""
 import json
 from pathlib import Path
 import duckdb
