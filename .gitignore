@@ -9,8 +9,6 @@ dbt/target/
 dbt/logs/
 artifacts/
 .env
-CLAUDE.md
-AGENTS.md
 *.webm
 docs/img/frames/
 *.log
