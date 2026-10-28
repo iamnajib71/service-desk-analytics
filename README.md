@@ -15,7 +15,6 @@ I turned service-desk records into tested SQL models and a dashboard that shows 
 | **Results** | [24,918 public incidents reduced from 141,712 audit rows; 20,000 separately labelled synthetic tickets; 11 dbt models and 38 passing dbt tests](docs/evidence.json). These are dataset and validation counts, not business improvements. |
 | **Skills shown** | SQL, Python, DuckDB, dbt, data modelling, data quality, KPI reporting, business analysis, Streamlit and Plotly. |
 | **Relevant roles** | Data Analyst, BI Analyst, Reporting Analyst, Business Analyst, Service Desk Reporting Analyst. |
-| **How it was built** | Designed, specified and reviewed by me; built with Codex as my coding agent (vibe coding). Verification and its limits are linked below. |
 | **Try it / evidence** | [Synthetic dashboard](https://iamnajib71.github.io/service-desk-analytics/) · [Monthly report](docs/monthly-service-report.md) · [SQL findings](analysis/README.md) · [Evidence](docs/evidence.json) |
 
 ## What I did, step by step
